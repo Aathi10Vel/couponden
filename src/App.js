@@ -1,7 +1,7 @@
-import CouponDen from './CouponDen';
+import CouponBazaar from './CouponBazaar';
 
 function App() {
-  return <CouponDen />;
+  return <CouponBazaar />;
 }
 
 export default App;
