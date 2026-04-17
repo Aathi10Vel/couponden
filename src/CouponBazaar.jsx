@@ -479,7 +479,7 @@ function AddModal({ onClose, onAdd }) {
 }
 
 export default function CouponBazaar() {
-  const [coupons, setCoupons] = useState(INITIAL_COUPONS);
+  
   const [tab, setTab] = useState("browse");
   const [platformFilter, setPlatformFilter] = useState("all");
   const [priceFilter, setPriceFilter] = useState("all");
@@ -618,7 +618,14 @@ export default function CouponBazaar() {
             </div>
           </div>
 
-          
+          <button
+            onClick={() => setShowAdd(true)}
+            style={{ background: "#F59E0B", color: "#fff", border: "none", borderRadius: 11, padding: "10px 20px", fontWeight: 700, fontSize: 14, cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0, transition: "background 0.15s" }}
+            onMouseEnter={e => e.currentTarget.style.background = "#E5920A"}
+            onMouseLeave={e => e.currentTarget.style.background = "#F59E0B"}
+          >
+            + Share Coupon
+          </button>
         </div>
       </header>
 
