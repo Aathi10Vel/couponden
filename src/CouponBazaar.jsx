@@ -19,6 +19,58 @@ const uid = () => Math.random().toString(36).slice(2, 9);
 const fut = (days) => new Date(Date.now() + days * 86400000).toISOString();
 const past = (h) => new Date(Date.now() - h * 3600000).toISOString();
 
+const INITIAL_COUPONS = [
+  { id: "s1", title: "₹50 cashback on mobile recharge", code: "GPAY50RCH",
+    description: "Get ₹50 cashback on mobile recharge of ₹200 or more using GPay. Valid once per user. Offer applies to all operators.",
+    platform: "gpay", discount: "₹50 cashback", isFree: true, sellingPrice: 0,
+    validUntil: fut(6), status: "active", inactiveReason: null,
+    sellerId: "u2", sellerName: "Arun K.", createdAt: past(2), claimedBy: null },
+  { id: "s2", title: "₹100 off first PhonePe order", code: "PPE100FIRST",
+    description: "Use this code for ₹100 discount on your first order via PhonePe. Minimum order value ₹399. Valid for new users only.",
+    platform: "phonepe", discount: "₹100 off", isFree: false, sellingPrice: 15,
+    validUntil: fut(3), status: "active", inactiveReason: null,
+    sellerId: "u3", sellerName: "Priya S.", createdAt: past(5), claimedBy: null },
+  { id: "s3", title: "Swiggy 40% off weekends", code: "SWGY40WKND",
+    description: "Flat 40% off on Swiggy orders every Saturday and Sunday. Maximum discount ₹80. Applicable on select restaurants.",
+    platform: "swiggy", discount: "40% off", isFree: false, sellingPrice: 20,
+    validUntil: fut(10), status: "active", inactiveReason: null,
+    sellerId: "u4", sellerName: "Karthik R.", createdAt: past(1), claimedBy: null },
+  { id: "s4", title: "Zomato Gold 3-month trial", code: "ZGOLD3MTH",
+    description: "Activate 3 months of Zomato Gold membership absolutely free. New users and lapsed members only. One code per account.",
+    platform: "zomato", discount: "3 months free", isFree: true, sellingPrice: 0,
+    validUntil: fut(2), status: "active", inactiveReason: null,
+    sellerId: "u5", sellerName: "Divya M.", createdAt: past(0.5), claimedBy: null },
+  { id: "s5", title: "Amazon ₹200 electronics voucher", code: "AMZ200ELEC",
+    description: "Get ₹200 off on electronics purchase of ₹1000 or more on Amazon India. Single use code. Non-transferable after redemption.",
+    platform: "amazon", discount: "₹200 off", isFree: false, sellingPrice: 30,
+    validUntil: fut(15), status: "active", inactiveReason: null,
+    sellerId: "u6", sellerName: "Vikram P.", createdAt: past(4), claimedBy: null },
+  { id: "s6", title: "Flipkart 500 SuperCoins transfer", code: "FLK500COIN",
+    description: "Transfer 500 SuperCoins worth approx ₹50 to your Flipkart account. Contact seller for account transfer process.",
+    platform: "flipkart", discount: "500 coins", isFree: false, sellingPrice: 25,
+    validUntil: fut(7), status: "active", inactiveReason: null,
+    sellerId: "u7", sellerName: "Meena L.", createdAt: past(6), claimedBy: null },
+  { id: "s7", title: "Big Bazaar ₹150 physical coupon", code: "BB150SAVE",
+    description: "Physical coupon valid at any Big Bazaar outlet across India. Minimum purchase ₹800. Single use only. Contact seller to claim.",
+    platform: "physical", discount: "₹150 off", isFree: false, sellingPrice: 10,
+    validUntil: fut(20), status: "active", inactiveReason: null,
+    sellerId: "u8", sellerName: "Ravi T.", createdAt: past(8), claimedBy: null },
+  { id: "s8", title: "Paytm ₹75 on utility bill payment", code: "PAYTMBILL75",
+    description: "₹75 cashback on electricity or water bill payment via Paytm. Minimum bill amount ₹500. Credited within 48 hours.",
+    platform: "paytm", discount: "₹75 cashback", isFree: true, sellingPrice: 0,
+    validUntil: fut(4), status: "active", inactiveReason: null,
+    sellerId: "u9", sellerName: "Sanjay V.", createdAt: past(12), claimedBy: null },
+  { id: "s9", title: "GPay ₹30 on first UPI payment", code: "GPAYUPI30",
+    description: "Earn ₹30 cashback on your first UPI payment through GPay. Applicable on any merchant payment above ₹100.",
+    platform: "gpay", discount: "₹30 cashback", isFree: true, sellingPrice: 0,
+    validUntil: fut(9), status: "active", inactiveReason: null,
+    sellerId: "u10", sellerName: "Nisha R.", createdAt: past(3), claimedBy: null },
+  { id: "s10", title: "Amazon 10% off fashion", code: "AMZFASH10",
+    description: "Get 10% off on fashion & clothing orders above ₹600 on Amazon. Maximum discount ₹150. Offer valid on select styles.",
+    platform: "amazon", discount: "10% off", isFree: false, sellingPrice: 12,
+    validUntil: fut(5), status: "active", inactiveReason: null,
+    sellerId: "u11", sellerName: "Teja K.", createdAt: past(7), claimedBy: null },
+];
 
 const EMPTY_FORM = {
   title: "", code: "", description: "", platform: "gpay",
@@ -479,7 +531,7 @@ function AddModal({ onClose, onAdd }) {
 }
 
 export default function CouponBazaar() {
-  
+  const [coupons, setCoupons] = useState(INITIAL_COUPONS);
   const [tab, setTab] = useState("browse");
   const [platformFilter, setPlatformFilter] = useState("all");
   const [priceFilter, setPriceFilter] = useState("all");
